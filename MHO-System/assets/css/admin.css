@@ -1,0 +1,118 @@
+/* Admin theme — blue */
+
+body.role-admin {
+    --role-accent: #0d6efd;
+    --role-accent-dark: #0a4a9e;
+    --role-accent-light: #6ea8fe;
+    --role-accent-soft: #e7f1ff;
+    --role-accent-border: rgba(190, 215, 255, 0.9);
+    --role-text-color: #0a4a9e;
+    --role-sidebar-start: #6ea8fe;
+    --role-sidebar-end: #0a2d5c;
+    --role-sidebar-link: rgba(232, 242, 255, 0.88);
+    --role-sidebar-hover-start: #0a3d7a;
+    --role-sidebar-hover-end: #4da3ff;
+    --role-sidebar-section: rgba(232, 242, 255, 0.45);
+    --role-sidebar-subtitle: rgba(232, 242, 255, 0.55);
+    --role-brand-mark: linear-gradient(135deg, #4da3ff, #0d6efd);
+    --role-card-header-bg: linear-gradient(180deg, #f7faff 0%, #eef4ff 100%);
+    --role-heading-font: Georgia, 'Times New Roman', serif;
+
+    background:
+        radial-gradient(circle at top left, rgba(110, 168, 254, 0.14), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(13, 110, 253, 0.08), transparent 28%),
+        linear-gradient(180deg, #f5f8ff 0%, #eef2f8 100%);
+    color: var(--role-text-color);
+}
+
+body.role-admin #page-content {
+    background: transparent;
+}
+
+body.role-admin .navbar {
+    background: rgba(255, 255, 255, 0.86) !important;
+    backdrop-filter: blur(10px);
+}
+
+body.role-admin .navbar-text {
+    color: var(--role-accent-dark) !important;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+}
+
+body.role-admin .card {
+    border: 1px solid var(--role-accent-border);
+    border-radius: 18px;
+    box-shadow: 0 16px 38px color-mix(in srgb, var(--role-accent-dark) 8%, transparent) !important;
+}
+
+body.role-admin .card-header {
+    background: var(--role-card-header-bg) !important;
+    color: var(--role-accent-dark);
+    border-bottom: 1px solid var(--role-accent-border);
+}
+
+body.role-admin .stat-card {
+    background: rgba(255, 255, 255, 0.92);
+}
+
+body.role-admin .stat-card .text-muted,
+body.role-admin .stat-card .fs-4 {
+    color: var(--role-accent-dark) !important;
+}
+
+body.role-admin .btn-outline-primary {
+    border-color: var(--role-accent);
+    color: var(--role-accent);
+}
+
+body.role-admin .btn-outline-primary:hover {
+    background: var(--role-accent);
+    color: #fff;
+}
+
+body.role-admin .badge.bg-primary {
+    background: var(--role-accent-light) !important;
+    color: var(--role-accent-dark) !important;
+}
+
+body.role-admin h1,
+body.role-admin h2,
+body.role-admin h3,
+body.role-admin .display-6 {
+    font-family: var(--role-heading-font);
+    color: var(--role-accent-dark);
+}
+
+body.role-admin .accordion-button {
+    background: #f8faff;
+    color: var(--role-accent-dark);
+    font-weight: 600;
+    font-size: 0.88rem;
+}
+
+body.role-admin .accordion-button:not(.collapsed) {
+    background: linear-gradient(90deg, var(--role-accent-soft), #f0f5ff);
+    color: var(--role-accent-dark);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--role-accent-border) 50%, transparent);
+}
+
+body.role-admin .accordion-button:focus {
+    box-shadow: none;
+    border-color: color-mix(in srgb, var(--role-accent) 30%, transparent);
+}
+
+body.role-admin .accordion-item {
+    border: 1px solid color-mix(in srgb, var(--role-accent-border) 60%, transparent);
+    margin-bottom: 0.25rem;
+    border-radius: 10px !important;
+    overflow: hidden;
+}
+
+body.role-admin .accordion-item:first-of-type {
+    border-radius: 10px 10px 0 0 !important;
+}
+
+body.role-admin .accordion-item:last-of-type {
+    border-radius: 0 0 10px 10px !important;
+}

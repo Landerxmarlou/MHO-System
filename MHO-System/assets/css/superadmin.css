@@ -1,0 +1,128 @@
+/* Superadmin theme — green */
+
+body.role-superadmin {
+    --role-accent: #1d9e75;
+    --role-accent-dark: #085041;
+    --role-accent-light: #5dcaa5;
+    --role-accent-soft: #e8f5f1;
+    --role-accent-border: rgba(194, 232, 216, 0.9);
+    --role-text-color: #0f6e56;
+    --role-sidebar-start: #4be7a0;
+    --role-sidebar-end: #012b1a;
+    --role-sidebar-link: rgba(232, 248, 242, 0.84);
+    --role-sidebar-hover-start: #023928;
+    --role-sidebar-hover-end: #2fbf8a;
+    --role-sidebar-section: rgba(232, 248, 242, 0.42);
+    --role-sidebar-subtitle: rgba(232, 248, 242, 0.52);
+    --role-brand-mark: linear-gradient(135deg, #29bf8c, #1d9e75);
+    --role-card-header-bg: linear-gradient(180deg, #f7fffc 0%, #eefaf5 100%);
+    --role-heading-font: Georgia, 'Times New Roman', serif;
+
+    background:
+        radial-gradient(circle at top left, rgba(93, 202, 165, 0.14), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(13, 110, 253, 0.10), transparent 28%),
+        linear-gradient(180deg, #f5fbf8 0%, #eef4f8 100%);
+    color: var(--role-text-color);
+}
+
+body.role-superadmin #page-content {
+    background: transparent;
+}
+
+body.role-superadmin .navbar {
+    background: rgba(255, 255, 255, 0.86) !important;
+    backdrop-filter: blur(10px);
+}
+
+body.role-superadmin .navbar-text,
+body.role-superadmin .card-header,
+body.role-superadmin .card,
+body.role-superadmin .table,
+body.role-superadmin .text-muted,
+body.role-superadmin .fw-semibold,
+body.role-superadmin .small {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+body.role-superadmin .navbar-text {
+    color: var(--role-accent-dark) !important;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+}
+
+body.role-superadmin .card {
+    border: 1px solid var(--role-card-border);
+    border-radius: 18px;
+    box-shadow: 0 16px 38px color-mix(in srgb, var(--role-accent-dark) 8%, transparent) !important;
+}
+
+body.role-superadmin .card-header {
+    background: var(--role-card-header-bg) !important;
+    color: var(--role-accent-dark);
+    border-bottom: 1px solid var(--role-card-border);
+}
+
+body.role-superadmin .stat-card {
+    background: rgba(255, 255, 255, 0.92);
+}
+
+body.role-superadmin .stat-card .text-muted,
+body.role-superadmin .stat-card .fs-4 {
+    color: var(--role-accent-dark) !important;
+}
+
+body.role-superadmin .btn-outline-primary {
+    border-color: var(--role-accent);
+    color: var(--role-accent);
+}
+
+body.role-superadmin .btn-outline-primary:hover {
+    background: var(--role-accent);
+    color: #fff;
+}
+
+body.role-superadmin .badge.bg-primary {
+    background: var(--role-accent-light) !important;
+    color: var(--role-accent-dark) !important;
+}
+
+body.role-superadmin h1,
+body.role-superadmin h2,
+body.role-superadmin h3,
+body.role-superadmin .display-6 {
+    font-family: var(--role-heading-font);
+    color: var(--role-accent-dark);
+}
+
+body.role-superadmin .accordion-button {
+    background: #f8fffc;
+    color: var(--role-accent-dark);
+    font-weight: 600;
+    font-size: 0.88rem;
+}
+
+body.role-superadmin .accordion-button:not(.collapsed) {
+    background: linear-gradient(90deg, var(--role-accent-soft), #f0faf6);
+    color: var(--role-accent-dark);
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--role-accent-border) 50%, transparent);
+}
+
+body.role-superadmin .accordion-button:focus {
+    box-shadow: none;
+    border-color: color-mix(in srgb, var(--role-accent) 30%, transparent);
+}
+
+body.role-superadmin .accordion-item {
+    border: 1px solid color-mix(in srgb, var(--role-accent-border) 60%, transparent);
+    margin-bottom: 0.25rem;
+    border-radius: 10px !important;
+    overflow: hidden;
+}
+
+body.role-superadmin .accordion-item:first-of-type {
+    border-radius: 10px 10px 0 0 !important;
+}
+
+body.role-superadmin .accordion-item:last-of-type {
+    border-radius: 0 0 10px 10px !important;
+}
