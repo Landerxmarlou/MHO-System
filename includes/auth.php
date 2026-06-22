@@ -218,15 +218,21 @@ function validateActiveLogin(PDO $db): void
     $user = $stmt->fetch();
 
     if (!$user || !(int) $user['is_active'] || !(int) ($user['is_logged_in'] ?? 0)) {
+        $userId = (int) ($_SESSION['user_id'] ?? 0);
+        if ($userId > 0) {
+            clearUserLoginFlag($db, $userId);
+        }
         destroySessionOnly();
         setFlash('warning', 'Your session has ended. Please sign in again.');
         redirect(baseUrl('login.php'));
     }
 }
 
-function logout(?PDO $db = null): void
+function logout(?PDO $db = null, ?int $userId = null): void
 {
-    $userId = (int) ($_SESSION['user_id'] ?? 0);
+    if ($userId === null) {
+        $userId = (int) ($_SESSION['user_id'] ?? 0);
+    }
 
     if ($db === null) {
         try {
