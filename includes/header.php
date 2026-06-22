@@ -81,17 +81,32 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'] ?? '');
 </head>
 <body class="role-<?= e($role ?: 'guest') ?><?= !empty($bodyClass) ? ' ' . e($bodyClass) : '' ?>">
 <?php if (isLoggedIn()): ?>
+<script>
+(function () {
+    try {
+        if (localStorage.getItem('mho-sidebar-collapsed') === 'true' && window.innerWidth >= 992) {
+            document.body.classList.add('sidebar-collapsed');
+        }
+    } catch (e) {}
+})();
+</script>
 <div class="d-flex" id="wrapper">
     <nav id="sidebar" class="sidebar">
         <div class="sidebar-header">
-            <div class="sidebar-brand">
-                <div class="sidebar-brand-mark">
-                    <img src="<?= e(baseUrl('Photo/RHULOGO.jpg')) ?>" alt="MHO logo">
+            <div class="sidebar-header-row">
+                <div class="sidebar-brand">
+                    <div class="sidebar-brand-mark">
+                        <img src="<?= e(baseUrl('Photo/RHULOGO.jpg')) ?>" alt="MHO logo">
+                    </div>
+                    <div class="sidebar-brand-copy">
+                        <div class="sidebar-brand-name">MHO Solano</div>
+                        <div class="sidebar-brand-subtitle">Record Management</div>
+                    </div>
                 </div>
-                <div class="sidebar-brand-copy">
-                    <div class="sidebar-brand-name">MHO Solano</div>
-                    <div class="sidebar-brand-subtitle">Record Management</div>
-                </div>
+                <button type="button" class="sidebar-minimize-btn d-none d-lg-flex" id="sidebarMinimize"
+                        aria-label="Minimize sidebar" aria-expanded="true">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
             </div>
         </div>
         <div class="sidebar-scroll">
@@ -104,7 +119,8 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'] ?? '');
                     <?php foreach ($section['items'] as $item): ?>
                     <li class="nav-item">
                         <a class="nav-link sidebar-link <?= $currentPage === basename($item['url']) ? 'active' : '' ?>"
-                           href="<?= e($item['url']) ?>">
+                           href="<?= e($item['url']) ?>"
+                           title="<?= e($item['label']) ?>">
                             <span class="sidebar-item-icon"><i class="bi <?= e($item['icon']) ?>"></i></span>
                             <span class="sidebar-link-text"><?= e($item['label']) ?></span>
                         </a>
@@ -117,7 +133,7 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'] ?? '');
             <div class="sidebar-welcome">
                 Welcome, <?= e($_SESSION['username'] ?? 'User') ?>!
             </div>
-            <a href="<?= e(baseUrl('logout.php')) ?>" class="sidebar-link logout-link">
+            <a href="<?= e(baseUrl('logout.php')) ?>" class="sidebar-link logout-link" title="Logout">
                 <span class="sidebar-item-icon"><i class="bi bi-box-arrow-right"></i></span>
                 <span class="sidebar-link-text">Logout</span>
             </a>

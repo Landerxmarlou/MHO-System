@@ -1,6 +1,12 @@
 :root {
     --mho-primary: #0d6efd;
-    --sidebar-width: 250px;
+    --sidebar-width-expanded: 250px;
+    --sidebar-width-collapsed: 72px;
+    --sidebar-width: var(--sidebar-width-expanded);
+}
+
+body.sidebar-collapsed {
+    --sidebar-width: var(--sidebar-width-collapsed);
 }
 
 body {
@@ -31,12 +37,41 @@ body {
 #sidebar {
     background: linear-gradient(180deg, var(--role-sidebar-start) 0%, var(--role-sidebar-end) 100%) !important;
     color: #f8fbff;
-    width: 250px;
+    width: var(--sidebar-width);
 }
 
 .sidebar-header {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: 1rem 1rem 0.85rem;
+}
+
+.sidebar-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.sidebar-minimize-btn {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.88);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.sidebar-minimize-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.28);
+    color: #fff;
 }
 
 .sidebar-link {
@@ -145,6 +180,44 @@ body {
     font-size: 0.78rem;
     color: var(--role-sidebar-subtitle);
     line-height: 1.1;
+}
+
+@media (min-width: 992px) {
+    body.sidebar-collapsed .sidebar-header {
+        padding-left: 0.65rem;
+        padding-right: 0.65rem;
+    }
+
+    body.sidebar-collapsed .sidebar-header-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.65rem;
+    }
+
+    body.sidebar-collapsed .sidebar-brand {
+        justify-content: center;
+    }
+
+    body.sidebar-collapsed .sidebar-brand-copy,
+    body.sidebar-collapsed .sidebar-link-text,
+    body.sidebar-collapsed .sidebar-section-title,
+    body.sidebar-collapsed .sidebar-welcome {
+        display: none;
+    }
+
+    body.sidebar-collapsed .sidebar-link {
+        justify-content: center;
+        margin-left: 0.45rem;
+        margin-right: 0.45rem;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        gap: 0;
+    }
+
+    body.sidebar-collapsed .sidebar-minimize-btn {
+        width: 32px;
+        height: 32px;
+    }
 }
 
 .login-wrapper {
@@ -407,12 +480,13 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 1030;
-    transition: left 0.3s;
+    transition: left 0.3s, width 0.25s ease;
 }
 
 #page-content {
     margin-left: var(--sidebar-width);
     min-width: 0;
+    transition: margin-left 0.25s ease;
 }
 
 .stat-card {
@@ -559,6 +633,10 @@ body {
 }
 
 @media (max-width: 991.98px) {
+    body.sidebar-collapsed {
+        --sidebar-width: var(--sidebar-width-expanded);
+    }
+
     .sidebar {
         left: calc(-1 * var(--sidebar-width));
         z-index: 1050;
