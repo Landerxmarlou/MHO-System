@@ -15,6 +15,16 @@ $barangays = loadUserBarangays($db, (int) $_SESSION['user_id']);
 $programs = $db->query('SELECT id, code, name FROM health_program ORDER BY id')->fetchAll();
 $periods = $db->query('SELECT * FROM report_period ORDER BY year DESC, month DESC')->fetchAll();
 
+$currentYear = (int) date('Y');
+$currentMonth = (int) date('n');
+$defaultPeriodId = null;
+foreach ($periods as $p) {
+    if ((int) $p['year'] === $currentYear && (int) $p['month'] === $currentMonth) {
+        $defaultPeriodId = (int) $p['id'];
+        break;
+    }
+}
+
 $preselectProgram = (int) ($_GET['program'] ?? 0);
 $showForce = false;
 
@@ -81,8 +91,11 @@ require_once __DIR__ . '/../includes/header.php';
                     <div class="mb-3">
                         <label class="form-label">Reporting Period</label>
                         <select name="period_id" class="form-select" required>
-                            <?php foreach ($periods as $p): ?>
-                            <option value="<?= (int)$p['id'] ?>" <?= isset($periodId) && (int)$p['id'] === $periodId ? 'selected' : '' ?>>
+                            <?php
+                            $selectedPeriodId = isset($periodId) ? (int) $periodId : $defaultPeriodId;
+                            foreach ($periods as $p):
+                            ?>
+                            <option value="<?= (int)$p['id'] ?>" <?= $selectedPeriodId !== null && (int)$p['id'] === $selectedPeriodId ? 'selected' : '' ?>>
                                 <?= e(periodLabel((int)$p['year'], (int)$p['month'])) ?>
                             </option>
                             <?php endforeach; ?>
