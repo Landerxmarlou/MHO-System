@@ -448,3 +448,52 @@ body.role-admin .modal-footer {
     border-top: 1px solid var(--role-accent-border);
     background: #fafdfb;
 }
+
+/* Report review — encode-style pagination */
+body.role-admin .admin-report-view {
+    padding-bottom: 6.5rem;
+}
+
+body.role-admin .encode-action-bar--review {
+    justify-content: space-between;
+}
+
+body.role-admin .encode-action-bar--validate-only {
+    justify-content: flex-end;
+}
+
+body.role-admin .encode-action-bar--validate-only .encode-action-bar__actions {
+    margin-left: auto;
+}
+
+body.role-admin .admin-validation-form {
+    margin-bottom: 0;
+}
+
+body.role-admin .admin-validation-card {
+    margin-bottom: 0;
+}
+
+body.role-admin .admin-validation-card .card-body {
+    padding-bottom: 1.25rem;
+}
+
+body.role-admin .encode-action-bar--review .encode-action-bar__actions .btn {
+    height: 40px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+body.role-admin .admin-report-view .part-card {
+    margin-bottom: 0;
+}
+
+body.role-admin .admin-report-view .part-card-body .indicator-summary-table .value-cell {
+    color: var(--role-accent-dark);
+    font-weight: 700;
+}

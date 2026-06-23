@@ -192,6 +192,92 @@ function columnStructureKey(array $columns): string
 }
 
 /**
+ * Build part list metadata for stepper navigation.
+ *
+ * @return list<array{name: string, count: int, filled: int}>
+ */
+function buildPartsList(array $grouped, array $stored = []): array
+{
+    $partsList = [];
+    foreach ($grouped as $part => $categories) {
+        $count = 0;
+        $filled = 0;
+        foreach ($categories as $inds) {
+            foreach ($inds as $ind) {
+                $count++;
+                $hasValue = false;
+                foreach (indicatorValueColumns($ind) as $col) {
+                    if (getStoredValue($stored, (int) $ind['id'], $col['sex'], $col['ageGroup']) !== '') {
+                        $hasValue = true;
+                        break;
+                    }
+                }
+                if ($hasValue) {
+                    $filled++;
+                }
+            }
+        }
+        $partsList[] = ['name' => $part, 'count' => $count, 'filled' => $filled];
+    }
+    return $partsList;
+}
+
+/**
+ * Render category blocks as read-only summary tables.
+ */
+function renderIndicatorCategoryBlocks(array $categories, array $stored): void
+{
+    foreach ($categories as $category => $indicators) {
+        $groups = [];
+        foreach ($indicators as $ind) {
+            $columns = indicatorValueColumns($ind);
+            $key = columnStructureKey($columns);
+            $groups[$key]['columns'] = $columns;
+            $groups[$key]['rows'][] = $ind;
+        }
+        ?>
+        <div class="indicator-category-block">
+            <div class="category-header"><?= e($category) ?></div>
+            <?php foreach ($groups as $group): ?>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover indicator-summary-table mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="indicator-desc-col">Indicator</th>
+                            <?php foreach ($group['columns'] as $col): ?>
+                            <th class="text-end value-col"><?= e($col['label']) ?></th>
+                            <?php endforeach; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($group['rows'] as $ind): ?>
+                        <tr>
+                            <td class="indicator-desc-col">
+                                <div class="indicator-title"><?= e($ind['description']) ?></div>
+                                <div class="indicator-code"><?= e($ind['code']) ?></div>
+                            </td>
+                            <?php foreach ($group['columns'] as $col):
+                                $val = getStoredValue(
+                                    $stored,
+                                    (int) $ind['id'],
+                                    $col['sex'],
+                                    $col['ageGroup']
+                                );
+                            ?>
+                            <td class="text-end value-cell"><?= e(formatIndicatorValue($val)) ?></td>
+                            <?php endforeach; ?>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php
+    }
+}
+
+/**
  * Render read-only indicator summary as aligned tables.
  */
 function renderIndicatorSummary(array $grouped, array $stored): void
@@ -216,54 +302,57 @@ function renderIndicatorSummary(array $grouped, array $stored): void
             <div id="<?= $partId ?>" class="accordion-collapse collapse <?= $partIndex === 1 ? 'show' : '' ?>"
                  data-bs-parent="#indicatorAccordion">
                 <div class="accordion-body p-0">
-                    <?php foreach ($categories as $category => $indicators):
-                        $groups = [];
-                        foreach ($indicators as $ind) {
-                            $columns = indicatorValueColumns($ind);
-                            $key = columnStructureKey($columns);
-                            $groups[$key]['columns'] = $columns;
-                            $groups[$key]['rows'][] = $ind;
-                        }
-                    ?>
-                    <div class="indicator-category-block">
-                        <div class="category-header"><?= e($category) ?></div>
-                        <?php foreach ($groups as $group): ?>
-                        <div class="table-responsive">
-                            <table class="table table-sm table-hover indicator-summary-table mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="indicator-desc-col">Indicator</th>
-                                        <?php foreach ($group['columns'] as $col): ?>
-                                        <th class="text-end value-col"><?= e($col['label']) ?></th>
-                                        <?php endforeach; ?>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($group['rows'] as $ind): ?>
-                                    <tr>
-                                        <td class="indicator-desc-col">
-                                            <div class="indicator-title"><?= e($ind['description']) ?></div>
-                                            <div class="indicator-code"><?= e($ind['code']) ?></div>
-                                        </td>
-                                        <?php foreach ($group['columns'] as $col):
-                                            $val = getStoredValue(
-                                                $stored,
-                                                (int) $ind['id'],
-                                                $col['sex'],
-                                                $col['ageGroup']
-                                            );
-                                        ?>
-                                        <td class="text-end value-cell"><?= e(formatIndicatorValue($val)) ?></td>
-                                        <?php endforeach; ?>
-                                    </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <?php endforeach; ?>
+                    <?php renderIndicatorCategoryBlocks($categories, $stored); ?>
                 </div>
+            </div>
+        </div>
+        <?php
+    }
+    echo '</div>';
+}
+
+/**
+ * Render read-only indicator summary with encode-style part pagination.
+ */
+function renderIndicatorSummaryPaginated(array $grouped, array $stored): void
+{
+    $partIndex = 0;
+    echo '<div id="partsContainer">';
+    foreach ($grouped as $part => $categories) {
+        $partIndex++;
+        $partId = 'part' . $partIndex;
+        $partCount = 0;
+        $partFilled = 0;
+        foreach ($categories as $inds) {
+            foreach ($inds as $ind) {
+                $partCount++;
+                $hasValue = false;
+                foreach (indicatorValueColumns($ind) as $col) {
+                    if (getStoredValue($stored, (int) $ind['id'], $col['sex'], $col['ageGroup']) !== '') {
+                        $hasValue = true;
+                        break;
+                    }
+                }
+                if ($hasValue) {
+                    $partFilled++;
+                }
+            }
+        }
+        $display = $partIndex === 1 ? 'block' : 'none';
+        $badgeClass = $partFilled === $partCount && $partCount > 0 ? 'bg-success' : 'bg-secondary';
+        ?>
+        <div class="part-card" id="<?= $partId ?>" data-part-index="<?= $partIndex ?>" style="display:<?= $display ?>">
+            <div class="part-card-header d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="part-card-step"><?= $partIndex ?></span>
+                    <span class="part-card-title"><?= e($part) ?></span>
+                </div>
+                <span class="badge part-count-badge <?= $badgeClass ?>">
+                    <?= (int) $partFilled ?>/<?= (int) $partCount ?>
+                </span>
+            </div>
+            <div class="part-card-body p-0">
+                <?php renderIndicatorCategoryBlocks($categories, $stored); ?>
             </div>
         </div>
         <?php
@@ -274,10 +363,14 @@ function renderIndicatorSummary(array $grouped, array $stored): void
 /**
  * Render indicator form fields (editable or read-only).
  */
-function renderIndicatorForm(array $grouped, array $stored, bool $readonly = false): void
+function renderIndicatorForm(array $grouped, array $stored, bool $readonly = false, bool $paginated = false): void
 {
     if ($readonly) {
-        renderIndicatorSummary($grouped, $stored);
+        if ($paginated) {
+            renderIndicatorSummaryPaginated($grouped, $stored);
+        } else {
+            renderIndicatorSummary($grouped, $stored);
+        }
         return;
     }
 
