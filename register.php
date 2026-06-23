@@ -38,7 +38,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="text-center mb-4">
                 <i class="bi bi-person-plus text-primary" style="font-size:3rem;"></i>
                 <h4 class="mt-2 fw-bold">Create Account</h4>
-                <p class="text-muted small">Register for MHO Record Management</p>
+                <p class="text-muted small">Register for <?= e(APP_NAME) ?></p>
             </div>
             <?php if ($error): ?>
             <div class="alert alert-danger py-2"><?= e($error) ?></div>

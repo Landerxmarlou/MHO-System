@@ -37,262 +37,399 @@ $pageTitle = 'Sign In';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><?= e($pageTitle) ?> — <?= e(APP_NAME) ?></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
+      --role-accent:       #1d9e75;
+      --role-accent-dark:  #085041;
+      --role-accent-light: #5dcaa5;
+      --role-accent-soft:  #e8f5f1;
+      --role-text-muted:   #4a8a75;
       --sky:       #EAF6FB;
-      --mint:      #5DCAA5;
+      --mint:      var(--role-accent-light);
       --mint-dark: #0F6E56;
-      --mint-med:  #1D9E75;
-      --mint-soft: #E1F5EE;
-      --navy:      #085041;
+      --mint-med:  var(--role-accent);
+      --mint-soft: var(--role-accent-soft);
+      --mint-glow: #6ee7b7;
+      --navy:      var(--role-accent-dark);
       --white:     #FFFFFF;
       --text-main: #0F6E56;
-      --text-muted:#4a8a75;
+      --text-muted:var(--role-text-muted);
       --border:    #c2e8d8;
       --input-bg:  #f5fcf9;
       --error:     #e24b4a;
+      --hero-bg:   #0f5240;
+      --hero-mid:  #1a6b55;
+      --panel-bg:  #1a3830;
+      --icon-color:var(--role-accent-dark);
+      --icon-bg:   rgba(255, 255, 255, 0.88);
+      --curve-line:#86C2A1;
     }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--sky);
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--panel-bg);
       min-height: 100vh;
       color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
     }
 
-    nav {
-      background: var(--mint-dark);
-      padding: 0 2rem;
-      height: 56px;
+    .login-page {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
     }
 
-    .nav-brand {
-      display: flex;
+    .auth-badge {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.75rem;
+      z-index: 4;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      text-decoration: none;
+      gap: 0.5rem;
+      padding: 0.45rem 0.95rem;
+      background: #eef2f8;
+      border: 1px solid #c5cdd9;
+      border-radius: 999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #7a3b3b;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(15, 40, 60, 0.06);
     }
 
-    .nav-logo {
-      width: 44px;
-      height: 44px;
-      background: var(--mint);
+    .auth-badge-dot {
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
+      background: #e04b4b;
+      box-shadow: 0 0 0 2px rgba(224, 75, 75, 0.18);
+      flex-shrink: 0;
+    }
+
+    .login-page-footer {
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 4;
+      width: min(92%, 56rem);
+      text-align: center;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      line-height: 1.55;
+      color: #000;
+      padding: 0 1.25rem;
+      pointer-events: none;
+    }
+
+    /* Left hero panel */
+    .login-hero {
+      flex: 0 0 58%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem 3.5rem 3rem 4rem;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+      clip-path: url(#heroCurve);
+      -webkit-clip-path: url(#heroCurve);
+    }
+
+    .login-hero > :not(.hero-bg):not(.hero-wave):not(.hero-brand) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      clip-path: url(#heroCurve);
+      -webkit-clip-path: url(#heroCurve);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(234, 246, 251, 0.62) 50%, rgba(225, 245, 238, 0.55) 100%),
+        url('<?= e(baseUrl("Photo/RHU%20pic.jpg")) ?>') center center / cover no-repeat;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 55% at 50% 100%, rgba(93, 202, 165, 0.14) 0%, transparent 65%),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 39px,
+          rgba(29, 158, 117, 0.05) 39px,
+          rgba(29, 158, 117, 0.05) 40px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent,
+          transparent 39px,
+          rgba(29, 158, 117, 0.05) 39px,
+          rgba(29, 158, 117, 0.05) 40px
+        );
+      pointer-events: none;
+      mask-image: linear-gradient(to top, black 0%, transparent 58%);
+      -webkit-mask-image: linear-gradient(to top, black 0%, transparent 58%);
+    }
+
+    .hero-wave {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 180px;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+      clip-path: url(#heroCurve);
+      -webkit-clip-path: url(#heroCurve);
+    }
+
+    .hero-wave svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .curve-defs {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .curve-stroke {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 58%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .curve-stroke path {
+      stroke: var(--curve-line);
+      stroke-width: 9;
+      vector-effect: non-scaling-stroke;
+      fill: none;
+    }
+
+    .curve-stroke .curve-glow {
+      stroke: var(--curve-line);
+      stroke-width: 20;
+      opacity: 0.35;
+    }
+
+    .hero-brand {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      z-index: 3;
+    }
+
+    .hero-brand-logo {
+      width: 48px;
+      height: 48px;
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
       flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(8, 80, 65, 0.08);
     }
 
-    .nav-logo img {
+    .hero-brand-logo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .nav-titles { display: flex; flex-direction: column; }
-    .nav-org  { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; color: #9FE1CB; text-transform: uppercase; }
-    .nav-name { font-size: 13px; font-weight: 600; color: #ffffff; }
+    .hero-brand-titles { display: flex; flex-direction: column; gap: 2px; }
+    .hero-brand-name { font-size: 1.05rem; font-weight: 800; color: var(--role-accent-dark); line-height: 1.25; letter-spacing: -0.02em; }
+    .hero-brand-sub  { font-size: 0.78rem; font-weight: 600; color: var(--role-accent); letter-spacing: 0.01em; line-height: 1.35; }
 
-    .nav-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 999px;
-      padding: 4px 12px;
-      font-size: 11px;
-      color: #9FE1CB;
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 34rem;
+      align-self: flex-start;
+      margin-left: 8.5rem;
+      text-align: left;
+    }
+
+    .hero-content-label {
+      display: block;
+      font-size: clamp(2.35rem, 4.8vw, 3.5rem);
+      font-weight: 800;
+      color: var(--role-accent);
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .hero-headline {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 800;
+      color: var(--role-accent-dark);
+      line-height: 1.02;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-headline-line {
+      display: block;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
       font-weight: 500;
+      color: #000;
+      line-height: 1.7;
+      margin-bottom: 0;
     }
 
-    .nav-badge::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--mint);
-      border-radius: 50%;
-    }
-
-    main {
-      min-height: calc(100vh - 56px - 44px);
+    /* Right login panel — fills region to the right of the curve */
+    .login-panel {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2rem 1.5rem;
-      position: relative;
+      padding-left: 58%;
+      padding-right: 1.25rem;
+      background: linear-gradient(165deg, var(--panel-bg) 0%, #142e27 55%, #122820 100%);
+      clip-path: url(#loginCurve);
+      -webkit-clip-path: url(#loginCurve);
       overflow: hidden;
     }
 
-    main::before {
+    .login-panel::before {
       content: '';
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(rgba(13, 110, 253, 0.10), rgba(15, 110, 86, 0.12)),
-        url('<?= e(baseUrl("Photo/RHU%20pic.jpg")) ?>') center center / cover no-repeat;
-      opacity: 0.62;
+        radial-gradient(circle at 20% 15%, rgba(93, 202, 165, 0.1) 0%, transparent 45%),
+        radial-gradient(circle at 80% 85%, rgba(15, 110, 86, 0.15) 0%, transparent 40%);
       pointer-events: none;
     }
 
-    .login-wrap {
-      display: flex;
+    .login-card {
       width: 100%;
-      max-width: 860px;
-      background: rgba(255, 255, 255, 0.92);
-      border-radius: 20px;
-      border: 1px solid var(--border);
-      overflow: hidden;
+      max-width: 560px;
+      min-height: 540px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(194, 232, 216, 0.9);
+      border-radius: 32px;
+      padding: 2.75rem 2.5rem 2.5rem;
+      box-shadow:
+        0 20px 50px rgba(8, 80, 65, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
       position: relative;
       z-index: 1;
-    }
-
-    .panel-left {
-      flex: 1;
-      background: var(--sky);
-      padding: 2.4rem 2rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      border-right: 1px solid var(--border);
     }
 
-    .secure-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--mint-soft);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 4px 14px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--mint-dark);
-      margin-bottom: 1.4rem;
-      width: fit-content;
-    }
-
-    .secure-badge svg { width: 13px; height: 13px; stroke: var(--mint-med); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-
-    .panel-left .org-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
-    .panel-left h1 {
-      font-size: 1.9rem;
-      font-weight: 700;
-      color: var(--navy);
-      line-height: 1.15;
-      margin-bottom: 0.9rem;
-    }
-
-    .panel-left .subtitle {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 1.4rem;
-    }
-
-    .features { display: flex; flex-direction: column; gap: 9px; }
-
-    .feature-item {
+    .login-card-top {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--mint-dark);
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.25rem;
+      margin-bottom: 2.25rem;
     }
 
-    .feature-dot {
-      width: 7px;
-      height: 7px;
-      background: var(--mint);
+    .login-card-intro {
+      flex: 1;
+      min-width: 0;
+      padding-top: 0.15rem;
+    }
+
+    .login-card-title {
+      font-size: clamp(1.35rem, 2.4vw, 1.65rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.25;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.02em;
+    }
+
+    .login-card-subtitle {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--role-text-muted);
+      line-height: 1.45;
+    }
+
+    .login-card-seal {
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
       flex-shrink: 0;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(8, 80, 65, 0.08);
+      background: var(--white);
     }
 
-    .panel-right {
-      width: 340px;
-      flex-shrink: 0;
-      padding: 2.35rem 2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .login-card-seal img {
+      width: 128%;
+      height: 128%;
+      margin: -14%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      display: block;
     }
 
-    .form-eyebrow {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
-    }
-
-    .panel-right h2 {
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 0.35rem;
-    }
-
-    .panel-right .tagline {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 1.45rem;
-    }
-
-    .field { margin-bottom: 1.1rem; }
+    .field { margin-bottom: 1.35rem; }
 
     .field label {
       display: block;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.55rem;
+      letter-spacing: 0;
     }
 
     .input-wrap { position: relative; }
 
-    .input-wrap svg {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 15px;
-      height: 15px;
-      stroke: var(--mint-med);
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      pointer-events: none;
-    }
-
     .input-wrap input {
       width: 100%;
-      padding: 10px 40px 10px 36px;
-      border-radius: 9px;
+      padding: 0.95rem 2.75rem 0.95rem 1.25rem;
+      border-radius: 999px;
       border: 1.5px solid var(--border);
       background: var(--input-bg);
-      font-size: 14px;
+      font-size: 0.9375rem;
       color: var(--navy);
       font-family: inherit;
       outline: none;
@@ -303,13 +440,13 @@ $pageTitle = 'Sign In';
 
     .input-wrap input:focus {
       border-color: var(--mint);
-      box-shadow: 0 0 0 3px rgba(93,202,165,0.18);
+      box-shadow: 0 0 0 3px rgba(93, 202, 165, 0.18);
       background: var(--white);
     }
 
     .toggle-pw {
       position: absolute;
-      right: 11px;
+      right: 14px;
       top: 50%;
       transform: translateY(-50%);
       background: none;
@@ -321,13 +458,11 @@ $pageTitle = 'Sign In';
     }
 
     .toggle-pw svg {
-      position: static;
-      transform: none;
-      width: 15px;
-      height: 15px;
-      stroke: var(--text-muted);
+      width: 17px;
+      height: 17px;
+      stroke: var(--icon-color);
       fill: none;
-      stroke-width: 2;
+      stroke-width: 2.5;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
@@ -338,8 +473,8 @@ $pageTitle = 'Sign In';
       gap: 6px;
       background: #fff5f5;
       border: 1px solid #f7c1c1;
-      border-radius: 8px;
-      padding: 8px 12px;
+      border-radius: 999px;
+      padding: 8px 14px;
       font-size: 12px;
       color: var(--error);
       font-weight: 500;
@@ -348,7 +483,16 @@ $pageTitle = 'Sign In';
 
     .error-msg.show { display: flex; }
 
-    .error-msg svg { width: 14px; height: 14px; stroke: var(--error); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .error-msg svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--error);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
 
     .btn-signin {
       display: flex;
@@ -356,93 +500,261 @@ $pageTitle = 'Sign In';
       justify-content: center;
       gap: 8px;
       width: 100%;
-      padding: 11px 0;
-      border-radius: 10px;
-      font-size: 14px;
+      padding: 1rem 0;
+      border-radius: 999px;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       border: none;
-      background: var(--mint);
-      color: var(--navy);
+      background: linear-gradient(135deg, var(--mint-med) 0%, var(--mint-dark) 100%);
+      color: var(--white);
       font-family: inherit;
-      margin-top: 0.5rem;
-      margin-bottom: 1rem;
-      transition: opacity 0.15s, transform 0.1s;
+      margin-top: 0.35rem;
+      transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+      box-shadow: 0 4px 14px rgba(15, 110, 86, 0.25);
     }
 
-    .btn-signin:hover { opacity: 0.88; }
+    .btn-signin:hover {
+      opacity: 0.92;
+      box-shadow: 0 6px 18px rgba(15, 110, 86, 0.3);
+    }
+
     .btn-signin:active { transform: scale(0.98); }
-    .btn-signin svg { width: 16px; height: 16px; stroke: var(--navy); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    .btn-signin svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--white);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
 
     .btn-signin.loading { opacity: 0.7; pointer-events: none; }
 
-    .need-access {
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-muted);
+    .login-card-or {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin: 1.5rem 0;
     }
 
-    footer {
-      background: var(--mint-dark);
-      height: 44px;
+    .login-card-or::before,
+    .login-card-or::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .login-card-or span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--role-text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .btn-signin-secondary {
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      text-align: center;
-      gap: 2px;
-      padding: 0 2rem;
-      font-size: 11px;
-      color: rgba(159, 225, 203, 0.75);
+      gap: 0.65rem;
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--navy);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
     }
 
-    @media (max-width: 640px) {
-      nav, footer { padding-left: 1rem; padding-right: 1rem; }
-      .login-wrap { flex-direction: column; }
-      .panel-left { border-right: none; border-bottom: 1px solid var(--border); padding: 1.75rem 1.25rem; }
-      .panel-right { width: 100%; padding: 1.75rem 1.25rem; }
-      main { padding: 1rem; }
-      footer { height: auto; gap: 0.5rem; padding-top: 0.65rem; padding-bottom: 0.65rem; flex-direction: column; align-items: flex-start; }
+    .btn-signin-secondary:hover {
+      border-color: var(--mint);
+      background: var(--input-bg);
+    }
+
+    .btn-google-icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .login-card-footer {
+      text-align: center;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--role-text-muted);
+      margin-top: 1.5rem;
+      line-height: 1.5;
     }
 
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    @media (max-width: 991.98px) {
+      .login-page { flex-direction: column; }
+
+      .curve-stroke { display: none; }
+
+      .login-hero,
+      .login-panel {
+        flex: none;
+        width: 100%;
+      }
+
+      .login-hero,
+      .hero-bg,
+      .hero-wave {
+        clip-path: none;
+        -webkit-clip-path: none;
+      }
+
+      .login-panel {
+        position: relative;
+        inset: auto;
+        clip-path: none;
+        -webkit-clip-path: none;
+        padding: 1.5rem 1.25rem 2rem;
+        width: 100%;
+      }
+
+      .login-hero {
+        padding: 2.5rem 2rem;
+        align-items: center;
+        text-align: center;
+      }
+
+      .hero-brand {
+        top: 1rem;
+        left: 1.25rem;
+      }
+
+      .hero-content {
+        margin-left: 4rem;
+        align-self: flex-start;
+        text-align: left;
+        max-width: 100%;
+      }
+
+      .hero-headline,
+      .hero-subtitle {
+        max-width: 100%;
+      }
+
+    }
+
+    @media (max-width: 640px) {
+      .login-hero { padding: 2rem 1.25rem; }
+
+      .hero-brand {
+        top: 0.85rem;
+        left: 1rem;
+      }
+
+      .hero-content {
+        margin-left: 2.5rem;
+      }
+
+      .login-card {
+        max-width: 100%;
+        min-height: auto;
+        padding: 2rem 1.5rem 1.75rem;
+        border-radius: 24px;
+      }
+
+      .login-panel { padding: 1rem; }
+
+      .auth-badge {
+        top: 0.85rem;
+        right: 1rem;
+        font-size: 0.75rem;
+        padding: 0.4rem 0.75rem;
+      }
+
+      .login-page-footer {
+        bottom: 0.75rem;
+        font-size: 0.625rem;
+        padding: 0 1rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <nav>
-    <a class="nav-brand" href="index.php">
-      <div class="nav-logo">
-        <img src="<?= e(baseUrl('Photo/RHULOGO.jpg')) ?>" alt="RHU Logo">
-      </div>
-      <div class="nav-titles">
-        <span class="nav-org">Municipality of Solano</span>
-        <span class="nav-name">MHO Record Management System</span>
-      </div>
-    </a>
-    <div class="nav-badge">Authorized Personnel Only</div>
-  </nav>
+  <div class="login-page">
+    <div class="auth-badge" role="status">
+      <span class="auth-badge-dot" aria-hidden="true"></span>
+      Authorized Personnel Only
+    </div>
 
-  <main>
-    <div class="login-wrap">
-      <div class="panel-left">
-        <div class="secure-badge">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Secure Portal
+    <svg aria-hidden="true" class="curve-defs">
+      <defs>
+        <clipPath id="heroCurve" clipPathUnits="objectBoundingBox">
+          <path d="M 0,0 L 0.86,0 C 1,0.17 1,0.83 0.86,1 L 0,1 Z" />
+        </clipPath>
+        <clipPath id="loginCurve" clipPathUnits="objectBoundingBox">
+          <path d="M 0.4988,0 C 0.58,0.17 0.58,0.83 0.4988,1 L 1,1 L 1,0 Z" />
+        </clipPath>
+      </defs>
+    </svg>
+
+    <section class="login-hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <a class="hero-brand" href="index.php">
+        <div class="hero-brand-logo">
+          <img src="<?= e(baseUrl('Photo/RHULOGO.jpg')) ?>" alt="RHU Logo">
         </div>
-        <div class="org-label">Municipality of Solano</div>
-        <h1>Record management built for health reporting.</h1>
-        <p class="subtitle">Track submissions, manage indicators, and keep every report organized across programs and barangays.</p>
-        <div class="features">
-          <div class="feature-item"><div class="feature-dot"></div>Real-time submission tracking</div>
-          <div class="feature-item"><div class="feature-dot"></div>Role-based access for staff and supervisors</div>
-          <div class="feature-item"><div class="feature-dot"></div>Structured indicator encoding and review</div>
+        <div class="hero-brand-titles">
+          <span class="hero-brand-name"><?= e(APP_OFFICE_NAME) ?></span>
+          <span class="hero-brand-sub"><?= e(APP_TAGLINE) ?></span>
         </div>
+      </a>
+
+      <div class="hero-content">
+        <span class="hero-content-label"><?= e(APP_OFFICE_NAME) ?></span>
+        <h1 class="hero-headline">
+          <span class="hero-headline-line">Health</span>
+          <span class="hero-headline-line">Entry</span>
+          <span class="hero-headline-line">Access</span>
+          <span class="hero-headline-line">Records and</span>
+          <span class="hero-headline-line">Tracking System</span>
+        </h1>
+        <p class="hero-subtitle"><?= e(APP_DESCRIPTION) ?></p>
       </div>
 
-      <div class="panel-right">
-        <div class="form-eyebrow">Access Portal</div>
-        <h2>Sign in to your account</h2>
-        <p class="tagline">Enter your credentials to continue.</p>
+      <div class="hero-wave" aria-hidden="true">
+        <svg viewBox="0 0 1200 180" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="waveFill" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="rgba(93,202,165,0.08)" />
+              <stop offset="100%" stop-color="rgba(234,246,251,0.35)" />
+            </linearGradient>
+          </defs>
+          <path d="M0,120 C200,60 400,160 600,100 C800,40 1000,140 1200,80 L1200,180 L0,180 Z" fill="url(#waveFill)" />
+          <path d="M0,120 C200,60 400,160 600,100 C800,40 1000,140 1200,80" fill="none" stroke="rgba(29,158,117,0.28)" stroke-width="1.5" />
+        </svg>
+      </div>
+    </section>
+
+    <svg class="curve-stroke" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path class="curve-glow" d="M 86,0 C 100,17 100,83 86,100" />
+      <path class="curve-line" d="M 86,0 C 100,17 100,83 86,100" />
+    </svg>
+
+    <section class="login-panel">
+      <div class="login-card">
+        <div class="login-card-top">
+          <div class="login-card-intro">
+            <h2 class="login-card-title">Welcome Back to <?= e(APP_SHORT_NAME) ?>!</h2>
+            <p class="login-card-subtitle">Sign in to your account to continue</p>
+          </div>
+          <div class="login-card-seal">
+            <img src="<?= e(baseUrl('Photo/Heart.png')) ?>" alt="<?= e(APP_SHORT_NAME) ?> logo">
+          </div>
+        </div>
 
         <div class="error-msg <?= $error ? 'show' : '' ?>" id="errorMsg">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -455,7 +767,6 @@ $pageTitle = 'Sign In';
           <div class="field">
             <label for="username">Username</label>
             <div class="input-wrap">
-              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               <input type="text" id="username" name="username" placeholder="Enter your username" autocomplete="username" required value="<?= e($_POST['username'] ?? '') ?>" />
             </div>
           </div>
@@ -463,7 +774,6 @@ $pageTitle = 'Sign In';
           <div class="field">
             <label for="password">Password</label>
             <div class="input-wrap">
-              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
               <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required />
               <button type="button" class="toggle-pw" onclick="togglePassword()" aria-label="Show or hide password">
                 <svg id="eyeIcon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -472,20 +782,31 @@ $pageTitle = 'Sign In';
           </div>
 
           <button type="submit" class="btn-signin" id="submitBtn">
-            <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-            Sign In
+            Sign in
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </form>
 
-        <div class="need-access">Need access? Contact your administrator.</div>
-      </div>
-    </div>
-  </main>
+        <div class="login-card-or" aria-hidden="true"><span>OR</span></div>
 
-  <footer>
-    <span>© <?= date('Y') ?> Municipality of Solano · MHO Record Management System</span>
-    <span>Municipal Health Office · All rights reserved</span>
-  </footer>
+        <button type="button" class="btn-signin-secondary">
+          <svg class="btn-google-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          Sign in with Google
+        </button>
+
+        <p class="login-card-footer">Need access? Contact your administrator.</p>
+      </div>
+    </section>
+
+    <footer class="login-page-footer">
+      © <?= date('Y') ?> Municipal Government of Solano · <?= e(APP_OFFICE_NAME) ?> <?= e(APP_TAGLINE) ?> · All rights reserved.
+    </footer>
+  </div>
 
   <script>
     function togglePassword() {

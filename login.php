@@ -42,7 +42,8 @@ require_once __DIR__ . '/includes/header.php';
         <div class="card-body p-4 p-md-5">
             <div class="text-center mb-4">
                 <i class="bi bi-hospital text-primary" style="font-size:3rem;"></i>
-                <h4 class="mt-2 fw-bold">MHO Record Management</h4>
+                <h4 class="mt-2 fw-bold"><?= e(APP_SHORT_NAME) ?></h4>
+                <p class="text-muted small mb-0"><?= e(APP_TAGLINE) ?></p>
                 <p>Municipal Health Office — Solano, Nueva Vizcaya</p>
             </div>
             <?php if ($success): ?>
