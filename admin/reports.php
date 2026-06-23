@@ -9,45 +9,8 @@ $summary = $db->query(
     'SELECT * FROM vw_submission_summary ORDER BY year DESC, month DESC, barangay, program'
 )->fetchAll();
 
-$byStatus = $db->query(
-    'SELECT status, COUNT(*) AS cnt FROM report_submission GROUP BY status'
-)->fetchAll(PDO::FETCH_KEY_PAIR);
-
-$byProgram = $db->query(
-    'SELECT hp.name, COUNT(rs.id) AS cnt
-     FROM health_program hp
-     LEFT JOIN report_submission rs ON rs.program_id = hp.id
-     GROUP BY hp.id ORDER BY hp.id'
-)->fetchAll();
-
 require_once __DIR__ . '/../includes/header.php';
 ?>
-<div class="row g-3 mb-4">
-    <?php foreach ($byStatus as $status => $cnt): ?>
-    <div class="col-auto">
-        <span class="badge bg-light text-dark border p-2">
-            <?= statusBadge($status) ?> <strong><?= (int)$cnt ?></strong>
-        </span>
-    </div>
-    <?php endforeach; ?>
-</div>
-
-<div class="row g-4 mb-4">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header bg-white fw-semibold">Submissions by Program</div>
-            <div class="card-body">
-                <?php foreach ($byProgram as $row): ?>
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="small"><?= e($row['name']) ?></span>
-                    <span class="badge bg-primary"><?= (int)$row['cnt'] ?></span>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="card shadow-sm">
     <div class="card-header bg-white fw-semibold">Submission Summary</div>
     <div class="table-responsive">
