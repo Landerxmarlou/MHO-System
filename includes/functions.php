@@ -68,6 +68,7 @@ function statusBadge(string $status): string
         'submitted' => 'warning',
         'validated' => 'success',
         'rejected'  => 'danger',
+        'archived'  => 'dark',
     ];
     $class = $map[$status] ?? 'secondary';
     return '<span class="badge bg-' . $class . '">' . e(ucfirst($status)) . '</span>';

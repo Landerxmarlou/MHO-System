@@ -31,6 +31,11 @@ foreach ($grouped as $part => $categories) {
 }
 $totalParts = count($partsList);
 
+$recordedTotals = sumRecordedIndicatorValues($grouped, $stored);
+$grandRecordedTotal = $recordedTotals['grand'];
+$partRecordedTotals = $recordedTotals['parts'];
+$showParticipantTotal = in_array($submission['status'], ['submitted', 'validated', 'archived'], true);
+
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
@@ -68,7 +73,7 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
     </header>
 
-    <div class="encode-meta-grid">
+    <div class="encode-meta-grid<?= $showParticipantTotal ? ' encode-meta-grid--4' : '' ?>">
         <div class="encode-meta-item">
             <div class="encode-meta-item__icon"><i class="bi bi-geo-alt-fill"></i></div>
             <div>
@@ -90,6 +95,16 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="encode-meta-item__value"><?= e($submission['program_name']) ?></div>
             </div>
         </div>
+        <?php if ($showParticipantTotal): ?>
+        <div class="encode-meta-item encode-meta-item--highlight">
+            <div class="encode-meta-item__icon"><i class="bi bi-people-fill"></i></div>
+            <div>
+                <div class="encode-meta-item__label">Total Participants</div>
+                <div class="encode-meta-item__value encode-meta-item__value--stat"><?= e(formatRecordedTotal($grandRecordedTotal)) ?></div>
+                <div class="encode-meta-item__hint">Sum of all recorded counts</div>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 
     <?php if ($submission['remarks'] && $submission['status'] === 'rejected'): ?>
@@ -211,6 +226,27 @@ require_once __DIR__ . '/../includes/header.php';
     </form>
 
     <?php else: ?>
+
+    <?php if ($showParticipantTotal): ?>
+    <div class="encode-participant-summary">
+        <div class="encode-participant-summary__icon"><i class="bi bi-bar-chart-fill"></i></div>
+        <div class="encode-participant-summary__content">
+            <div class="encode-participant-summary__title">Submission totals</div>
+            <div class="encode-participant-summary__grid">
+                <div class="encode-participant-summary__stat encode-participant-summary__stat--grand">
+                    <span class="encode-participant-summary__stat-label">Total participants</span>
+                    <span class="encode-participant-summary__stat-value"><?= e(formatRecordedTotal($grandRecordedTotal)) ?></span>
+                </div>
+                <?php foreach ($partRecordedTotals as $partName => $partTotal): ?>
+                <div class="encode-participant-summary__stat">
+                    <span class="encode-participant-summary__stat-label"><?= e($partName) ?></span>
+                    <span class="encode-participant-summary__stat-value"><?= e(formatRecordedTotal((float) $partTotal)) ?></span>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 
     <div class="card encode-readonly-card shadow-sm">
         <div class="card-body">

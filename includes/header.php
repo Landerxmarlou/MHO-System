@@ -35,7 +35,7 @@ switch ($role) {
         $navItems = [
             ['label' => 'Dashboard', 'url' => roleUrl('admin', 'dashboard.php'), 'icon' => 'bi-speedometer2'],
             ['label' => 'Submissions', 'url' => roleUrl('admin', 'submissions.php'), 'icon' => 'bi-inbox'],
-            ['label' => 'Validate', 'url' => roleUrl('admin', 'validate.php'), 'icon' => 'bi-check2-circle'],
+            ['label' => 'Archive', 'url' => roleUrl('admin', 'archive.php'), 'icon' => 'bi-archive'],
             ['label' => 'Targets', 'url' => roleUrl('admin', 'targets.php'), 'icon' => 'bi-bullseye'],
             ['label' => 'Reports', 'url' => roleUrl('admin', 'reports.php'), 'icon' => 'bi-bar-chart'],
         ];
@@ -72,7 +72,7 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'] ?? '');
     ?>
     <link href="<?= e(assetUrl('css/' . $role . '.css')) ?>" rel="stylesheet">
     <?php endif; ?>
-    <?php if ($role === 'superadmin'): ?>
+    <?php if (in_array($role, ['superadmin', 'admin'], true)): ?>
     <link href="<?= e(assetUrl('css/encode-report.css')) ?>" rel="stylesheet">
     <?php endif; ?>
     <?php if (!empty($extraStyles)): foreach ((array)$extraStyles as $style): ?>
@@ -133,14 +133,15 @@ $currentPage = basename($_SERVER['SCRIPT_NAME'] ?? '');
             <div class="sidebar-welcome">
                 Welcome, <?= e($_SESSION['username'] ?? 'User') ?>!
             </div>
-            <a href="<?= e(baseUrl('logout.php')) ?>" class="sidebar-link logout-link" title="Logout">
+            <a href="<?= e(baseUrl('logout.php')) ?>" class="sidebar-link logout-link" title="Logout"
+               data-confirm="Are you sure you want to sign out?">
                 <span class="sidebar-item-icon"><i class="bi bi-box-arrow-right"></i></span>
                 <span class="sidebar-link-text">Logout</span>
             </a>
         </div>
     </nav>
     <div id="page-content" class="flex-grow-1">
-        <main class="container-fluid p-4<?= $role === 'superadmin' ? ' superadmin-main' : '' ?>">
+        <main class="container-fluid p-4<?= $role === 'superadmin' ? ' superadmin-main' : ($role === 'admin' ? ' admin-main' : '') ?>">
             <button type="button" class="btn btn-sm btn-outline-secondary d-lg-none mb-3" id="sidebarToggle" aria-label="Open menu">
                 <i class="bi bi-list"></i>
             </button>

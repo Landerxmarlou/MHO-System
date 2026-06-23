@@ -38,7 +38,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="d-flex justify-content-between align-items-center mb-3">
     <div class="btn-group btn-group-sm">
         <a href="?" class="btn btn-outline-secondary <?= empty($_GET['status']) ? 'active' : '' ?>">All</a>
-        <?php foreach (['draft','submitted','validated','rejected'] as $s): ?>
+        <?php foreach (['draft','submitted','validated','archived','rejected'] as $s): ?>
         <a href="?status=<?= $s ?>" class="btn btn-outline-secondary <?= ($_GET['status'] ?? '') === $s ? 'active' : '' ?>">
             <?= ucfirst($s) ?>
         </a>

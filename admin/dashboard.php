@@ -6,7 +6,7 @@ $db = getDB();
 $pageTitle = 'Admin Dashboard';
 
 $pending = (int) $db->query("SELECT COUNT(*) FROM report_submission WHERE status = 'submitted'")->fetchColumn();
-$validated = (int) $db->query("SELECT COUNT(*) FROM report_submission WHERE status = 'validated'")->fetchColumn();
+$validated = (int) $db->query("SELECT COUNT(*) FROM report_submission WHERE status IN ('validated', 'archived')")->fetchColumn();
 $rejected = (int) $db->query("SELECT COUNT(*) FROM report_submission WHERE status = 'rejected'")->fetchColumn();
 $total = (int) $db->query('SELECT COUNT(*) FROM report_submission')->fetchColumn();
 
@@ -34,7 +34,7 @@ require_once __DIR__ . '/../includes/header.php';
         <div class="card stat-card shadow-sm text-center">
             <div class="card-body py-3">
                 <div class="fs-3 fw-bold text-success"><?= $validated ?></div>
-                <div class="small text-muted">Validated</div>
+                <div class="small text-muted">In Archive</div>
             </div>
         </div>
     </div>
@@ -56,10 +56,23 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </div>
 
+<?php if ($validated > 0): ?>
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">Report Archive</span>
+        <a href="<?= e(roleUrl('admin', 'archive.php')) ?>" class="btn btn-sm btn-success">View Archive</a>
+    </div>
+    <div class="card-body py-3">
+        <span class="badge bg-success"><?= $validated ?> validated report<?= $validated !== 1 ? 's' : '' ?></span>
+        stored as read-only archive records.
+    </div>
+</div>
+<?php endif; ?>
+
 <div class="card shadow-sm">
     <div class="card-header bg-white d-flex justify-content-between align-items-center">
         <span class="fw-semibold">Pending Validation</span>
-        <a href="<?= e(roleUrl('admin', 'validate.php')) ?>" class="btn btn-sm btn-primary">Review All</a>
+        <a href="<?= e(roleUrl('admin', 'submissions.php')) ?>" class="btn btn-sm btn-primary">Review All</a>
     </div>
     <div class="table-responsive">
         <table class="table table-hover mb-0">
@@ -73,7 +86,7 @@ require_once __DIR__ . '/../includes/header.php';
                     <td><?= e($r['program']) ?></td>
                     <td class="small text-muted"><?= e($r['submitted_at'] ?? '—') ?></td>
                     <td>
-                        <a href="<?= e(roleUrl('admin', 'validate.php?id=' . $r['id'])) ?>" class="btn btn-sm btn-outline-primary">Review</a>
+                        <a href="<?= e(roleUrl('admin', 'submissions.php?id=' . $r['id'])) ?>" class="btn btn-sm btn-outline-primary">Review</a>
                     </td>
                 </tr>
                 <?php endforeach; endif; ?>

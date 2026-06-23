@@ -1,27 +1,27 @@
-/* Admin theme — blue */
+/* Admin theme — green (matches superadmin encode-style UI) */
 
 body.role-admin {
-    --role-accent: #0d6efd;
-    --role-accent-dark: #0a4a9e;
-    --role-accent-light: #6ea8fe;
-    --role-accent-soft: #e7f1ff;
-    --role-accent-border: rgba(190, 215, 255, 0.9);
-    --role-text-color: #0a4a9e;
-    --role-sidebar-start: #6ea8fe;
-    --role-sidebar-end: #0a2d5c;
-    --role-sidebar-link: rgba(232, 242, 255, 0.88);
-    --role-sidebar-hover-start: #0a3d7a;
-    --role-sidebar-hover-end: #4da3ff;
-    --role-sidebar-section: rgba(232, 242, 255, 0.45);
-    --role-sidebar-subtitle: rgba(232, 242, 255, 0.55);
-    --role-brand-mark: linear-gradient(135deg, #4da3ff, #0d6efd);
-    --role-card-header-bg: linear-gradient(180deg, #f7faff 0%, #eef4ff 100%);
-    --role-heading-font: Georgia, 'Times New Roman', serif;
+    --role-accent: #1a7a60;
+    --role-accent-dark: #085041;
+    --role-accent-light: #5dcaa5;
+    --role-accent-soft: #e8f5f1;
+    --role-accent-border: rgba(194, 232, 216, 0.9);
+    --role-text-color: #0f6e56;
+    --role-sidebar-start: #4be7a0;
+    --role-sidebar-end: #012b1a;
+    --role-sidebar-link: rgba(232, 248, 242, 0.84);
+    --role-sidebar-hover-start: #023928;
+    --role-sidebar-hover-end: #2fbf8a;
+    --role-sidebar-section: rgba(232, 248, 242, 0.42);
+    --role-sidebar-subtitle: rgba(232, 248, 242, 0.52);
+    --role-brand-mark: linear-gradient(135deg, #29bf8c, #1a7a60);
+    --role-card-header-bg: linear-gradient(180deg, #f7fffc 0%, #eefaf5 100%);
+    --role-heading-font: 'Segoe UI', system-ui, sans-serif;
 
     background:
-        radial-gradient(circle at top left, rgba(110, 168, 254, 0.14), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(13, 110, 253, 0.08), transparent 28%),
-        linear-gradient(180deg, #f5f8ff 0%, #eef2f8 100%);
+        radial-gradient(circle at top left, rgba(93, 202, 165, 0.14), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(26, 122, 96, 0.08), transparent 28%),
+        linear-gradient(180deg, #f8f9fa 0%, #eef4f8 100%);
     color: var(--role-text-color);
 }
 
@@ -29,53 +29,12 @@ body.role-admin #page-content {
     background: transparent;
 }
 
-body.role-admin .navbar {
-    background: rgba(255, 255, 255, 0.86) !important;
-    backdrop-filter: blur(10px);
+body.role-admin .admin-main {
+    max-width: 1320px;
+    margin: 0 auto;
 }
 
-body.role-admin .navbar-text {
-    color: var(--role-accent-dark) !important;
-    font-weight: 800;
-    letter-spacing: 0.01em;
-}
-
-body.role-admin .card {
-    border: 1px solid var(--role-accent-border);
-    border-radius: 18px;
-    box-shadow: 0 16px 38px color-mix(in srgb, var(--role-accent-dark) 8%, transparent) !important;
-}
-
-body.role-admin .card-header {
-    background: var(--role-card-header-bg) !important;
-    color: var(--role-accent-dark);
-    border-bottom: 1px solid var(--role-accent-border);
-}
-
-body.role-admin .stat-card {
-    background: rgba(255, 255, 255, 0.92);
-}
-
-body.role-admin .stat-card .text-muted,
-body.role-admin .stat-card .fs-4 {
-    color: var(--role-accent-dark) !important;
-}
-
-body.role-admin .btn-outline-primary {
-    border-color: var(--role-accent);
-    color: var(--role-accent);
-}
-
-body.role-admin .btn-outline-primary:hover {
-    background: var(--role-accent);
-    color: #fff;
-}
-
-body.role-admin .badge.bg-primary {
-    background: var(--role-accent-light) !important;
-    color: var(--role-accent-dark) !important;
-}
-
+/* Typography */
 body.role-admin h1,
 body.role-admin h2,
 body.role-admin h3,
@@ -84,15 +43,277 @@ body.role-admin .display-6 {
     color: var(--role-accent-dark);
 }
 
+body.role-admin .encode-header__title {
+    font-family: var(--role-heading-font);
+}
+
+/* Alerts */
+body.role-admin .alert-success {
+    background: var(--role-accent-soft);
+    border-color: color-mix(in srgb, var(--role-accent) 30%, #fff);
+    color: var(--role-accent-dark);
+    border-radius: 12px;
+    border-left: 4px solid var(--role-accent);
+}
+
+body.role-admin .alert-danger,
+body.role-admin .alert-info,
+body.role-admin .alert-warning {
+    border-radius: 12px;
+}
+
+/* Badges */
+body.role-admin .badge.bg-primary {
+    background: var(--role-accent-soft) !important;
+    color: var(--role-accent-dark) !important;
+    border: 1px solid color-mix(in srgb, var(--role-accent) 25%, transparent);
+    font-weight: 600;
+}
+
+/* Cards & panels */
+body.role-admin .card,
+body.role-admin .sa-panel {
+    background: #fff;
+    border: 1px solid var(--role-accent-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px color-mix(in srgb, var(--role-accent-dark) 6%, transparent) !important;
+    overflow: hidden;
+}
+
+body.role-admin .card-header,
+body.role-admin .sa-panel__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
+    background: linear-gradient(135deg, var(--role-accent) 0%, var(--role-accent-dark) 100%) !important;
+    color: #fff;
+    border-bottom: none;
+    font-weight: 700;
+}
+
+body.role-admin .card-header .fw-semibold,
+body.role-admin .sa-panel__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+body.role-admin .card-header .btn,
+body.role-admin .sa-panel__header .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.82rem;
+}
+
+body.role-admin .card-header .btn-outline-primary,
+body.role-admin .card-header .btn-outline-secondary,
+body.role-admin .card-header .btn-primary,
+body.role-admin .card-header .btn-success,
+body.role-admin .sa-panel__header .btn-outline-primary,
+body.role-admin .sa-panel__header .btn-outline-secondary,
+body.role-admin .sa-panel__header .btn-primary {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #fff;
+}
+
+body.role-admin .card-header .btn-outline-primary:hover,
+body.role-admin .card-header .btn-primary:hover,
+body.role-admin .card-header .btn-success:hover,
+body.role-admin .sa-panel__header .btn-outline-primary:hover,
+body.role-admin .sa-panel__header .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #fff;
+    color: var(--role-accent-dark);
+}
+
+body.role-admin .sa-panel__body {
+    padding: 0;
+}
+
+body.role-admin .sa-panel__body.padded {
+    padding: 1rem 1.25rem;
+}
+
+/* Stat cards (dashboard) */
+body.role-admin .stat-card {
+    background: #fff;
+    border: 1px solid var(--role-accent-border);
+    border-radius: 16px;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+body.role-admin .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px color-mix(in srgb, var(--role-accent-dark) 10%, transparent) !important;
+}
+
+body.role-admin .stat-card .text-muted {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #8c9aa8 !important;
+}
+
+body.role-admin .stat-card .fs-3,
+body.role-admin .stat-card .fs-4 {
+    color: var(--role-accent-dark) !important;
+    font-weight: 800;
+}
+
+body.role-admin .stat-card .text-primary {
+    color: var(--role-accent-dark) !important;
+}
+
+/* Encode-style stat grid (if used) */
+body.role-admin .encode-meta-grid--stats {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+body.role-admin .encode-meta-item__value.fs-stat {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--role-accent-dark);
+}
+
+/* Tables inside cards / panels */
+body.role-admin .card .table,
+body.role-admin .sa-panel__body .table {
+    margin-bottom: 0;
+    font-size: 0.875rem;
+}
+
+body.role-admin .card .table thead th,
+body.role-admin .sa-panel__body .table thead th {
+    background: #fafdfb;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6c757d;
+    border-bottom: 1px solid var(--role-accent-border);
+    padding: 0.65rem 1rem;
+}
+
+body.role-admin .card .table tbody td,
+body.role-admin .sa-panel__body .table tbody td {
+    padding: 0.65rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f2f1;
+}
+
+body.role-admin .card .table tbody tr:hover,
+body.role-admin .sa-panel__body .table tbody tr:hover {
+    background: color-mix(in srgb, var(--role-accent-soft) 35%, #fff);
+}
+
+body.role-admin .card .table tbody tr:last-child td,
+body.role-admin .sa-panel__body .table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Filter toolbar */
+body.role-admin .sa-toolbar .form-select,
+body.role-admin .sa-toolbar .form-control,
+body.role-admin form.row .form-select,
+body.role-admin form.row .form-control {
+    border-radius: 10px;
+    font-size: 0.88rem;
+}
+
+body.role-admin .sa-toolbar .btn,
+body.role-admin form.row .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+body.role-admin .sa-filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 1rem;
+}
+
+body.role-admin .sa-filter-pills .btn {
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.35rem 0.85rem;
+}
+
+body.role-admin .sa-filter-pills .btn.active {
+    background: linear-gradient(135deg, var(--role-accent), var(--role-accent-dark));
+    border-color: var(--role-accent);
+    color: #fff;
+}
+
+/* Buttons */
+body.role-admin .btn-primary {
+    background: linear-gradient(135deg, var(--role-accent), var(--role-accent-dark));
+    border: none;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--role-accent) 35%, transparent);
+}
+
+body.role-admin .btn-primary:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+}
+
+body.role-admin .btn-outline-primary {
+    border-color: color-mix(in srgb, var(--role-accent) 50%, #dee2e6);
+    color: var(--role-accent-dark);
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+body.role-admin .btn-outline-primary:hover {
+    background: var(--role-accent-soft);
+    border-color: var(--role-accent);
+    color: var(--role-accent-dark);
+}
+
+body.role-admin .btn-sm {
+    border-radius: 8px;
+}
+
+body.role-admin .btn-success {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+body.role-admin .btn-danger {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+/* Form controls */
+body.role-admin .form-control,
+body.role-admin .form-select {
+    border-radius: 10px;
+    border-color: color-mix(in srgb, var(--role-accent-border) 80%, #dee2e6);
+}
+
+body.role-admin .form-control:focus,
+body.role-admin .form-select:focus {
+    border-color: var(--role-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--role-accent) 15%, transparent);
+}
+
+/* Accordion (report summary) */
 body.role-admin .accordion-button {
-    background: #f8faff;
+    background: #f8fffc;
     color: var(--role-accent-dark);
     font-weight: 600;
     font-size: 0.88rem;
 }
 
 body.role-admin .accordion-button:not(.collapsed) {
-    background: linear-gradient(90deg, var(--role-accent-soft), #f0f5ff);
+    background: linear-gradient(90deg, var(--role-accent-soft), #f0faf6);
     color: var(--role-accent-dark);
     box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--role-accent-border) 50%, transparent);
 }
@@ -115,4 +336,115 @@ body.role-admin .accordion-item:first-of-type {
 
 body.role-admin .accordion-item:last-of-type {
     border-radius: 0 0 10px 10px !important;
+}
+
+/* Report summary tables */
+body.role-admin .category-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    padding: 0.7rem 1.25rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #fafdfb;
+    border-left: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--role-accent-border) 70%, transparent);
+    color: var(--role-accent-dark);
+}
+
+body.role-admin .indicator-summary-table thead th {
+    background: #f8faf9;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #8c9aa8;
+    border-bottom: 2px solid color-mix(in srgb, var(--role-accent) 20%, transparent);
+}
+
+body.role-admin .indicator-summary-table tbody tr:nth-child(even) {
+    background: #fafcfb;
+}
+
+body.role-admin .indicator-summary-table .value-cell {
+    color: var(--role-accent-dark);
+    font-weight: 700;
+}
+
+body.role-admin .indicator-summary-table tbody tr:hover {
+    background: color-mix(in srgb, var(--role-accent-soft) 35%, #fff);
+}
+
+body.role-admin .report-summary-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Chart panels (dashboard) */
+body.role-admin .sa-chart-panel {
+    background: #fff;
+    border: 1px solid var(--role-accent-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px color-mix(in srgb, var(--role-accent-dark) 6%, transparent);
+    overflow: hidden;
+    height: 100%;
+}
+
+body.role-admin .sa-chart-panel__header {
+    padding: 0.85rem 1.15rem;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--role-accent-dark);
+    background: #fafdfb;
+    border-bottom: 1px solid var(--role-accent-border);
+}
+
+body.role-admin .sa-chart-panel__body {
+    padding: 1rem 1.15rem;
+}
+
+/* Quick actions */
+body.role-admin .sa-quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+body.role-admin .sa-quick-actions .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.82rem;
+    border-color: color-mix(in srgb, var(--role-accent) 50%, #dee2e6);
+    color: var(--role-accent-dark);
+}
+
+body.role-admin .sa-quick-actions .btn:hover {
+    background: var(--role-accent-soft);
+    border-color: var(--role-accent);
+    color: var(--role-accent-dark);
+}
+
+/* Activity list */
+body.role-admin .sa-activity-list .list-group-item {
+    border-color: #f0f2f1;
+    padding: 0.65rem 1.15rem;
+    font-size: 0.85rem;
+}
+
+body.role-admin .sa-activity-list .list-group-item:hover {
+    background: color-mix(in srgb, var(--role-accent-soft) 30%, #fff);
+}
+
+/* Modals */
+body.role-admin .modal-header {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--role-accent-soft) 50%, #fff), color-mix(in srgb, var(--role-accent-soft) 80%, #fff));
+    border-bottom: 1px solid var(--role-accent-border);
+    color: var(--role-accent-dark);
+}
+
+body.role-admin .modal-footer {
+    border-top: 1px solid var(--role-accent-border);
+    background: #fafdfb;
 }
