@@ -1,9 +1,0 @@
-/*
- * Deprecated: styles are split into base.css + role-specific files.
- * - assets/css/base.css       — shared layout and components
- * - assets/css/superadmin.css — superadmin theme
- * - assets/css/admin.css      — admin theme
- * - assets/css/doctor.css     — doctor theme
- * - assets/css/nurse.css      — nurse theme
- */
-@import url('base.css');
